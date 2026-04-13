@@ -1,43 +1,41 @@
-body {
-    margin: 0; background: #3169C6; 
-    height: 100vh; display: flex; align-items: center; justify-content: center;
-    font-family: 'Tahoma', sans-serif; overflow: hidden;
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; background: #3169C6; font-family: Tahoma, sans-serif; }
+
+.window { width: 98vw; height: 97vh; margin: 1vh auto; background: #ECE9D8; border: 3px solid #0054E3; display: flex; flex-direction: column; box-shadow: inset -1px -1px #00138C; }
+.title-bar { background: linear-gradient(to bottom, #0058EE 0%, #3791FF 100%); padding: 3px 10px; color: white; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 13px; height: 30px; }
+.toolbar { padding: 5px 10px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #ACA899; background: #ECE9D8; }
+
+.icon, .icon-link { font-size: 18px; padding: 4px; cursor: pointer; border: 1px solid transparent; display: inline-flex; text-decoration: none; color: inherit; }
+.icon:hover, .icon-link:hover { border: 1px solid #0A246A; background: #FFF; box-shadow: 1px 1px 1px #888; }
+.separator { width: 1px; height: 20px; background: #ACA899; margin: 0 4px; }
+
+.window-body { flex-grow: 1; background: #808080; overflow-y: scroll; padding: 40px 0; }
+.paper { background: white; width: 800px; margin: 0 auto; min-height: 1050px; padding: 70px 90px; box-shadow: 10px 10px 0px rgba(0,0,0,0.5); font-family: 'Times New Roman', serif; font-size: 16px; color: black; position: relative; }
+
+/* MARCO FOTO 200X200 */
+.photo-container { 
+    float: left; 
+    width: 200px; 
+    height: 200px; 
+    margin-right: 25px; 
+    margin-bottom: 10px; 
+    border: 1px solid #999; 
+    background: #f5f5f5; 
+    overflow: hidden; 
 }
-
-.window {
-    width: 98vw; height: 96vh;
-    background: #ECE9D8; border: 3px solid #0054E3;
-    display: flex; flex-direction: column;
+.slow-load-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    animation: dialUpLoad 6s steps(60) forwards; 
+    clip-path: inset(0 0 100% 0); 
 }
+@keyframes dialUpLoad { to { clip-path: inset(0 0 0% 0); } }
 
-.title-bar {
-    background: linear-gradient(to bottom, #0058EE 0%, #3791FF 100%);
-    padding: 3px 10px; color: white; display: flex; justify-content: space-between;
-}
+.section-block { margin-bottom: 25px; line-height: 1.6; }
+h2 { font-size: 18px; border-bottom: 2px solid black; margin-bottom: 12px; text-transform: uppercase; clear: both; }
+p { margin: 5px 0; }
 
-.toolbar-container { background: #ECE9D8; border-bottom: 1px solid #808080; }
-.toolbar { padding: 4px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid #ACA899; }
-.ruler { height: 18px; background: #ECE9D8; border-bottom: 1px solid #808080; }
-
-.window-body {
-    flex-grow: 1; background: #808080; 
-    overflow-y: scroll; padding: 40px 20px;
-    scroll-behavior: auto; /* Importante para que el scroll sea instantáneo */
-}
-
-.paper {
-    background: white; width: 800px; margin: 0 auto;
-    min-height: 1100px; padding: 60px 90px;
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
-    font-family: 'Times New Roman', serif; font-size: 17px;
-    line-height: 1.8; color: #000;
-}
-
-/* Separación de bloques */
-#cv-content div { margin-bottom: 25px; }
-h2 { border-bottom: 1px solid #ccc; margin-bottom: 10px; text-transform: uppercase; }
-
+.tech-badge { font-weight: bold; color: #000080; background: #f0f0f0; border: 1px solid #999; border-radius: 3px; padding: 0 2px; display: inline; }
 .cursor { animation: blink 0.6s infinite; font-weight: bold; }
 @keyframes blink { 50% { opacity: 0; } }
-
-.status-bar { background: #ECE9D8; border-top: 1px solid #ACA899; padding: 2px 10px; font-size: 11px; display: flex; justify-content: space-between; }

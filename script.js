@@ -6,7 +6,12 @@ const cvData = [
         "• 2025 Grado Medio: Ciclo Formativo Grado Medio Sistemas Microinformáticos y Redes en Escola del Treball Barcelona [12/09/2023 - 06/06/2025]. Prácticas FCT: Soporte técnico, montaje de equipos y mantenimiento de infraestructuras de red.",
         "• 2023 ESO: Escola Mireia [12/09/2019 - 22/06/2023]."
     ]},
-    { title: "HABILIDADES TÉCNICAS", text: "• Sistemas y Redes: Configuración de redes locales y administración de Windows y Linux.\n• Datos y Gestión: Diseño de bases de datos SQL y administración de suites ofimáticas.\n• Desarrollo Software: Dominio de Java y Python aplicado a lógica de negocio y POO.\n• Desarrollo Web: Interfaces dinámicas con HTML5, CSS3 y JavaScript (JS)." },
+    { title: "HABILIDADES TÉCNICAS", isList: true, items: [
+        "• Sistemas y Redes: Configuración de redes locales y administración de Windows y Linux.",
+        "• Datos y Gestión: Diseño de bases de datos SQL y administración de suites ofimáticas.",
+        "• Desarrollo Software: Dominio de Java y Python aplicado a lógica de negocio y POO.",
+        "• Desarrollo Web: Interfaces dinámicas con HTML5, CSS3 y JavaScript (JS)."
+    ]},
     { title: "CONTACTO E IDIOMAS", text: "📍 Barcelona (España) | 📞 (+34) 639 16 155 77\n📧 nfelipevaquero@gmail.com | 🌐 Nacionalidad: Española\n🗣 Idiomas: Español, Catalán e Inglés (B2).\n🔗 LinkedIn | Portfolio" }
 ];
 
@@ -25,12 +30,15 @@ function type() {
             container.appendChild(div);
         }
         let target = document.getElementById(`sec-${secIdx}`);
+        
         if (section.isList) {
             if (itemIdx < section.items.length) {
                 if (charIdx === 0) target.innerHTML += `<p id="item-${secIdx}-${itemIdx}"></p>`;
                 write(document.getElementById(`item-${secIdx}-${itemIdx}`), section.items[itemIdx], true);
             } else { next(); }
-        } else { write(target, section.text, false); }
+        } else {
+            write(target, section.text, false);
+        }
     }
 }
 
@@ -64,31 +72,41 @@ function printCV() {
     let printHTML = "";
     cvData.forEach(s => {
         let h = `<h2>${s.title}</h2>`;
-        if (s.isList) s.items.forEach(it => h += `<p>${it}</p>`);
-        else h += `<p>${s.text.replace(/\n/g, '<br>')}</p>`;
-        techWords.forEach(w => h = h.replace(new RegExp(`\\b${w}\\b`, 'g'), `<span style="font-weight:bold; color:#000080;">${w}</span>`));
+        if (s.isList) s.items.forEach(it => {
+            let itemText = it;
+            techWords.forEach(w => itemText = itemText.replace(new RegExp(`\\b${w}\\b`, 'g'), `<span style="font-weight:bold; color:#000080;">${w}</span>`));
+            h += `<p>${itemText}</p>`;
+        });
+        else {
+            let bodyText = s.text.replace(/\n/g, '<br>');
+            techWords.forEach(w => bodyText = bodyText.replace(new RegExp(`\\b${w}\\b`, 'g'), `<span style="font-weight:bold; color:#000080;">${w}</span>`));
+            h += `<p>${bodyText}</p>`;
+        }
         printHTML += `<div style="margin-bottom:20px;">${h}</div>`;
     });
 
     const win = window.open('', '_blank');
+    const imgElement = document.querySelector('.slow-load-img');
+    const imgSrc = imgElement ? imgElement.src : '';
+    
     win.document.write(`
         <html>
-        <head><title>Imprimir CV</title><style>
+        <head><title>Nicolás Felipe - CV</title><style>
             body { font-family: 'Times New Roman', serif; padding: 40px; }
-            h2 { border-bottom: 2px solid black; text-transform: uppercase; font-size: 18px; }
-            p { font-size: 16px; margin: 5px 0; }
+            .p-img { float: left; width: 150px; height: 150px; margin-right: 20px; border: 1px solid #000; object-fit: cover; }
+            h2 { border-bottom: 2px solid black; text-transform: uppercase; font-size: 18px; margin-top: 0; }
+            p { font-size: 16px; margin: 5px 0; line-height: 1.4; }
+            .content { clear: none; }
         </style></head>
-        <body>${printHTML}</body>
+        <body>
+            ${imgSrc ? `<img src="${imgSrc}" class="p-img">` : ''}
+            <div class="content">${printHTML}</div>
+        </body>
         </html>
     `);
     win.document.close();
-    // Esperamos a que la ventana cargue el contenido para imprimir
-    win.onload = function() {
-        win.print();
-        win.close();
-    };
-    // Backup por si el onload falla en algunos navegadores
-    setTimeout(() => { win.print(); }, 500);
+    win.onload = function() { win.print(); win.close(); };
+    setTimeout(() => { if(!win.closed) win.print(); }, 500);
 }
 
 window.onload = () => { setTimeout(type, 800); };
